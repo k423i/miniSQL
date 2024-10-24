@@ -86,7 +86,7 @@ BufferManager::BufferManager(int frame_size) {
     initialize(frame_size);
 }
 
-// 析构函数非常重要。在程序结束时需要将缓冲池里的所有页写回磁盘。
+// 析构函数非常重要。在程序结束时需要将缓冲池里的所有Page写回磁盘。
 BufferManager::~BufferManager() {
     for (int i = 0;i < frame_size_;i++) {
         std::string file_name;
@@ -140,14 +140,15 @@ int BufferManager::loadDiskBlock(int page_id , std::string file_name , int block
     // 打开磁盘文件
     FILE* f = fopen(file_name.c_str() , "r");
     // 打开失败返回-1
-    if (f == NULL)
-        return -1;
+    if (f == NULL) return -1;
     // 将文件指针定位到对应位置
+    // block_id指磁盘 page_id指内存
+    // 页号与页面大小相乘 使指针移到block_id号的页面开头
     fseek(f , PAGESIZE * block_id , SEEK_SET);
     // 获取页的句柄
     char* buffer = Frames[page_id].getBuffer();
     // 读取对应磁盘块到内存页
-    fread(buffer , PAGESIZE , 1 , f);
+    fread(buffer, PAGESIZE, 1, f);
     // 关闭文件
     fclose(f);
     // 对新载入的页进行相应设置
@@ -160,19 +161,18 @@ int BufferManager::loadDiskBlock(int page_id , std::string file_name , int block
     return 0;
 }
 
-// 核心函数之一。内存和磁盘交互的接口。
+// 核心函数 将内存页的内容写入磁盘块
 int BufferManager::flushPage(int page_id , std::string file_name , int block_id) {
     // 打开文件
     FILE* f = fopen(file_name.c_str() , "r+");
     // 其实这里有写多余，因为打开一个文件读总是能成功。
-    if (f == NULL)
-        return -1; 
+    if (f == NULL) return -1; 
     // 将文件指针定位到对应位置
     fseek(f , PAGESIZE * block_id , SEEK_SET);
     // 获取页的句柄
     char* buffer = Frames[page_id].getBuffer();
     // 将内存页的内容写入磁盘块
-    fwrite(buffer , PAGESIZE , 1 , f);
+    fwrite(buffer, PAGESIZE, 1, f);
     // 关闭文件
     fclose(f);
     return 0;

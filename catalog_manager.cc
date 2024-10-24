@@ -14,18 +14,18 @@ void CatalogManager::createTable(std::string name, Attribute Attr, int primary, 
         throw table_exist();
     }
     //确保主键为unique
-    Attr.unique[primary]=true;
+    Attr.unique[primary] = true;
     //记录每条信息的字符数（包括这里的5个）
-    std::string str_tmp="0000 ";
+    std::string str_tmp = "0000 ";
     //添加name
-    str_tmp+=name;
+    str_tmp += name;
     //添加attribute的数量
-    str_tmp=str_tmp+" "+num2str(Attr.num, 2);
-    //添加没个attribute的信息，顺序为类型，名字，是否为唯一
-    for(int i=0;i<Attr.num;i++)
-        str_tmp=str_tmp+" "+num2str(Attr.type[i], 3)+" "+Attr.name[i]+" "+(Attr.unique[i]==true?"1":"0");
+    str_tmp = str_tmp + " " + num2str(Attr.num, 2);
+    //添加每个attribute的信息，顺序为类型，名字，是否为唯一
+    for(int i = 0; i < Attr.num; i ++)
+        str_tmp = str_tmp + " " + num2str(Attr.type[i], 3) + " " + Attr.name[i] + " " + (Attr.unique[i] == true ? "1" : "0");
     //添加主键信息
-    str_tmp=str_tmp+" "+num2str(primary, 2);
+    str_tmp = str_tmp + " " + num2str(primary, 2);
     //添加index的数量, ;用来做标记index的开始
     str_tmp=str_tmp+" ;"+num2str(index.num, 2);
     //添加index的信息，顺序为相对位置和名字
@@ -83,7 +83,7 @@ void CatalogManager::dropTable(std::string name){
     int page_id = buffer_manager.getPageId(TABLE_MANAGER_PATH , suitable_block);
     std::string buffer_check(buffer);
     //求出应删除的块的index的开始和结尾后删除
-    int end_index=start_index+str2num(buffer_check.substr(start_index,4));
+    int end_index=start_index+str2num(buffer_check.substr(start_index, 4));
     int index=0,current_index=0;;
     do{
         if(index<start_index||index>=end_index)

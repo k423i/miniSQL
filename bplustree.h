@@ -14,6 +14,7 @@
 #include <map>
 #include <iostream>
 #include <sstream>
+#include <bits/stdc++.h>
 #include "basic.h"
 #include "const.h"
 #include "exception.h"

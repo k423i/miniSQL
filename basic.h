@@ -11,6 +11,66 @@
 #include <iostream>
 #include <vector>
 
+// create table students(
+//     id int, 
+//     sex char(10),
+//     name char(20),
+//     birthday int,
+//     tel long,
+//     nickname char(20),
+//     primary key id
+// );
+// insert into students values(1, "male", "lyf", 20021020, 19522959534, "khalil");
+
+// struct Data{
+//     int type;
+//     int datai;
+//     float dataf;
+//     std::string datas;
+// };
+// 
+// 1 type = -1 datai = 1
+// male type = 5 datas = male
+// lyf type = 4 datas = lyf
+// ...
+
+// struct Attribute{
+//     int num;  //存放table的属性数
+//     std::string name[32];  //存放每个属性的名字
+//     short type[32];  //存放每个属性的类型，-1：int,0:float,1~255:string的长度+1
+//     bool unique[32];  //判断每个属性是否unique，是为true
+//     short primary_key;  //判断是否存在主键,-1为不存在，其他则为主键的所在位置
+//     bool has_index[32]; //判断是否存在索引
+// };
+// 
+// num = 6
+// name[0] = id name[1] = sex name[2] = name ...
+// type[0] = -1 type[1] = 5   type[2] = 4 ...
+// unique[0] = false ...
+// primary_key = 0
+// has_index[0] = false ...
+
+// class Tuple{
+// private:
+//     std::vector<Data> data_;  //存储元组里的每个数据的信息
+//     bool isDeleted_;
+// public:
+//     Tuple() : isDeleted_(false) {};
+//     Tuple(const Tuple &tuple_in);  //拷贝元组
+//     void addData(Data data_in);  //新增元组
+//     std::vector<Data> getData() const;  //返回数据
+//     int getSize();  //返回元组的数据数量
+//     bool isDeleted();
+//     void setDeleted();
+//     void showTuple();  //显示元组中的所有数据
+// };
+// insert into students values(1, "male", "lyf", 20021020, 19522959534, "khalil");
+// 这就是一个tuple
+// data_[0].type = -1 data_[0].datai = 1
+// data_[1].type = 5 data_[0].datas = "male" ... 
+
+
+
 //用于where的判断 分别为小于，小于等于，等于，大于等于，大于，不等于
 typedef enum{
     LESS,
@@ -22,8 +82,8 @@ typedef enum{
 } WHERE;
 
 //一个struct存放它的一条信息的类型和值
-//用一个strunt嵌套一个union实现多种类型的转换
-//type的类型：-1：int,0:float,1-255:string(数值为字符串的长度+1),注意使用时对Value的选择！
+//用一个struct嵌套一个union实现多种类型的转换
+//type的类型：-1为int,0为float,1-255:string(数值为字符串的长度+1),注意使用时对Value的选择！
 struct Data{
     int type;
     int datai;
@@ -34,10 +94,11 @@ struct Data{
 //Where存放一组判断语句
 struct Where{
     Data data; //数据
-    WHERE relation_character;   //关系
+    WHERE relation_character;   //关系 是LESS EQUAL等
 };
 
 //在确定类型时，慎用str.size()+1来决定str的type的值，一张表最多32个attribute
+
 struct Attribute{
     int num;  //存放table的属性数
     std::string name[32];  //存放每个属性的名字

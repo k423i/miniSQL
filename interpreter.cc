@@ -116,7 +116,7 @@ void Interpreter::EXEC(){
         std::cout<<">>> Error: Index has existed!"<<std::endl;
     }
     catch(index_not_exist error) {
-        std::cout<<">>> Error: Index not existed!"<<std::endl;
+        std::cout<<">>> Error: Index not exist!"<<std::endl;
     }
     catch(tuple_type_conflict error) {
         std::cout<<">>> Error: Tuple type conflict!"<<std::endl;
