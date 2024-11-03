@@ -1,10 +1,3 @@
-//
-//  api.cc
-//  api
-//
-//  Created by Xw on 2017/5/31.
-//  Copyright © 2017年 Xw. All rights reserved.
-//
 #include "api.h"
 #include "template_function.h"
 #include <algorithm>

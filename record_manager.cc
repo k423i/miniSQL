@@ -1,10 +1,3 @@
-//
-//  record_manager.cc
-//  record_manager
-//
-//  Created by Hys on 2017/5/30.
-//  Copyright © 2017年 Hys. All rights reserved.
-//
 #include "record_manager.h"
 
 //输入：表名
